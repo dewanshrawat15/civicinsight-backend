@@ -25,7 +25,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from user_auth.views import UserRegistration
+from user_auth.views import UserRegistration, UserSessionAPI
 from civicinsight.views import UserComplaintview
 
 
@@ -49,6 +49,7 @@ urlpatterns = [
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('api/auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/auth/token/', TokenObtainPairView.as_view(), name='token_access'),
-    path('api/user/register', UserRegistration.as_view(), name='register_user'),
-    path('api/complaint/new', UserComplaintview.as_view(), name='register_complaint')
+    path('api/auth/session/', UserSessionAPI.as_view(), name='session_api'),
+    path('api/user/register/', UserRegistration.as_view(), name='register_user'),
+    path('api/complaint/new/', UserComplaintview.as_view(), name='register_complaint')
 ]

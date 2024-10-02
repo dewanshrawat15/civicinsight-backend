@@ -8,7 +8,7 @@ from drf_yasg.utils import swagger_auto_schema
 from .serialisers import NewUserSerializer
 
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 class UserRegistration(APIView):
     permission_classes = (AllowAny,)
@@ -21,3 +21,13 @@ class UserRegistration(APIView):
             serializer.save()
             return Response(serializer.data, status = status.HTTP_201_CREATED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+class UserSessionAPI(APIView):
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request):
+        user = request.user
+        print(user)
+        return Response({
+            "message": "Hello world"
+        }, status=status.HTTP_200_OK)
