@@ -18,3 +18,16 @@ class NewComplaintSerializer(serializers.ModelSerializer):
             return model
         else:
             raise UnauthorisedException()
+
+class FetchComplaintsSerializer(serializers.ModelSerializer):
+
+    photo_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = RequestModel
+        fields = ('photo_url', 'text', 'latitude', 'longitude', 'created_at', 'id',)
+    
+    def get_photo_url(self, complaint):
+        request = self.context.get('request')
+        photo_url = complaint.image.url
+        return request.build_absolute_uri(photo_url)

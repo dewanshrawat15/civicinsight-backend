@@ -26,8 +26,10 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 from user_auth.views import UserRegistration, UserSessionAPI
-from civicinsight.views import UserComplaintview
+from civicinsight.views import UserComplaintview, UserComplaintsHistoryView, UserComplaintDetailView
 
+from django.conf import settings
+from django.conf.urls.static import static
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -51,5 +53,7 @@ urlpatterns = [
     path('api/auth/token/', TokenObtainPairView.as_view(), name='token_access'),
     path('api/auth/session/', UserSessionAPI.as_view(), name='session_api'),
     path('api/user/register/', UserRegistration.as_view(), name='register_user'),
-    path('api/complaint/new/', UserComplaintview.as_view(), name='register_complaint')
-]
+    path('api/complaint/new/', UserComplaintview.as_view(), name='register_complaint'),
+    path('api/complaint/history/', UserComplaintsHistoryView.as_view(), name='complaint_history'),
+    path('api/complaint/detail/', UserComplaintDetailView.as_view(), name='complaint_detail'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
